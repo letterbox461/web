@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkspreading=self.webpackChunkspreading||[]).push([[779],{779:function(a,r,t){t.r(r);t(2791);var e=t(184);r.default=function(){return(0,e.jsx)("img",{src:"/img/png-clipart-lear-corporation-car-seat-manufacturing-car-seat-car-company-text.png",alt:"logo",style:{height:"50px"}})}}}]);
+//# sourceMappingURL=779.25778199.chunk.js.map

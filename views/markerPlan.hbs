@@ -1,0 +1,422 @@
+<div class="status">
+  <div class="status">
+    <button id="status_indicator"> Status Indicator</button>
+    <div><input type="date" id='date' value={{plandate}} onchange="dateHandler(event)" class="inactive"></div>
+    <button class="inactive"><a id='upd_btn' href="/getdata" draggable="false">Обновить данные</a></button>
+
+  </div>
+  <div draggable="false" class="shifts" id="shiftSelector">
+    {{#if (is1 shift)}}
+    <button class="active" draggable="false" id='1shift'><a draggable="false" href="/getdatashift?shift=1">Смена
+        1</a></button>
+    {{else}}
+    <button class="inactive" draggable="false" id='1shift'><a draggable="false" href="/getdatashift?shift=1">Смена
+        1</a></button>
+    {{/if}}
+    {{#if (is2 shift)}}
+    <button class="active" draggable="false" id='2shift'><a draggable="false" href="/getdatashift?shift=2">Смена
+        2</a></button>
+    {{else}}
+    <button class="inactive" draggable="false" id='2shift'><a draggable="false" href="/getdatashift?shift=2">Смена
+        2</a></button>
+    {{/if}}
+    {{#if (is3 shift)}}
+    <button class="active" draggable="false" id='3shift'><a draggable="false" href="/getdatashift?shift=3">Смена
+        3</a></button>
+    {{else}}
+    <button class="inactive" draggable="false" id='3shift'><a draggable="false" href="/getdatashift?shift=3">Смена
+        3</a></button>
+    {{/if}}
+    {{#if (is4 shift)}}
+    <button class="active" draggable="false" id='4shift'><a draggable="false"
+        href="/getdatashift?shift=4">Резерв</a></button>
+    {{else}}
+    <button class="inactive" draggable="false" id='4shift'><a draggable="false"
+        href="/getdatashift?shift=4">Резерв</a></button>
+    {{/if}}
+  </div>
+  <span class="shifts"><button id='markerEditBtn' class="inactive" onclick='markerEditBtnHandler(event)'>Редактировать
+      раскладки</button> <span id="hiddenSpan" class="invisible"> <input type="date" value={{plandate}} class="inactive"
+        id="markerEditDate"> <input type="text" placeholder='Слоев...' class="inactive input-narrow"
+        id="markereditLayers"><button class="inactive" id="markerEditConf"
+        onclick="pushHandler(event)">Обновить</button></span></span>
+  <span class="shifts"><button id="materialsPrint" class="inactive" onclick="materialPrintHandler(event)">Печать материалов по заданию</button>
+
+</div>
+
+
+<div class="container2 hidden" id="topContainer" draggable="false">
+  <div class="marker-pool" draggable="false">
+    <h3 id="0H" class="table-header unselectable" ondblclick="buttonHandler(event)" draggable="false">Нераспределеннные
+      раскладки
+      <input ondrop="dropHandler(event)" type="text" id='0input' class="searcher" onkeyup="searchHandler(event)" /><span
+        id='0counter' name="statWindow"></span>
+    </h3>
+    <div id="0c" draggable="false" class="marker-pool-inner" ondrop="dropHandler(event);"
+      ondragover="dragOverHandler(event)" ondragleave="dragLeaveHandler(event)">
+
+      <table class='table-body' draggable="false">
+        <tr class="sticky" draggable="false">
+
+          <td><input class="checkbox" type="checkbox" name="global" id="0chkbx_g"
+              onchange="chkBox_global_handler(event)"></td>
+          <td>ID</td>
+          <td>Модель</td>
+          <td>Комплект</td>
+          <td>Раскладка</td>
+          <td>Материал</td>
+          <td>Дл.</td>
+          <td>Слоев</td>
+          <td>Время</td>
+
+
+        </tr>
+        <tbody class='table-body' id="0" ondrop="dropHandler(event);" ondragover="dragOverHandler(event)"
+          ondragleave="dragLeaveHandler(event)" draggable="false">
+
+          {{#each data}}
+          {{#if (is0 this.ctTbl)}}
+          <tr class="table-row" draggable="true" ondragend="dragEndHandler(event)"  onmouseover="multiSelect(event)" ondragover="dragOverHandler(event)"
+            ondragleave="dragLeaveHandler(event)" ondblclick="dblHandler(event)" id={{this.ID}}>
+            <td class="checkbox" id={{this.ID}}td1><input type="checkbox" name={{this.ID}} id=chk{{this.ID}} /></td>
+            <td class='table-cell' id={{this.ID}}td2>{{this.ID}}</td>
+            <td class='table-cell' id={{this.ID}}tdop1 name="visibility">{{this.Model}}</td>
+            <td class='table-cell' id={{this.ID}}tdop2 name="visibility">{{this.Carset}}</td>
+            <td class='table-cell' id={{this.ID}}td3>{{this.Marker}}</td>
+            <td class='table-cell' id={{this.ID}}tdop3 name="visibility">{{this.LearNumber}}</td>
+            <td class='table-cell' id={{this.ID}}tdop5 name="visibility">{{this.Длинна}}</td>
+            <td class='table-cell' id={{this.ID}}tdop4>{{this.Layers}}</td>
+            <td class='table-cell' name="stdTime" id={{this.ID}}td4>{{this.stdtime}}</td>
+
+
+
+          </tr>
+          {{/if}}
+          {{/each}}
+        </tbody>
+      </table>
+      <footer draggable="false" class="tableFooter" ondblclick="buttonHandler(event)" id=0f></footer>
+    </div>
+
+  </div>
+
+
+  <div class="marker-assignment" draggable="false">
+    <div class="machine-pool" draggable="false">
+      <h3 id="1H" class="table-header" ondblclick="buttonHandler(event)" draggable="false">Стол1 <input
+          ondrop="dropHandler(event)" type="text" id='1input' class="searcher" onkeyup="searchHandler(event)" /><span
+          id='1counter' name="statWindow"></span> </h3>
+      <div id="1T" draggable="false" class="machine-pool-inner" ondrop="dropHandler(event)"
+        ondragover="dragOverHandler(event)" ondragleave="dragLeaveHandler(event)">
+
+        <table class='table-body' draggable="false">
+
+          <tr draggable="false" class="stickyT">
+
+            <td><input class="checkbox_stick" type="checkbox" name="global" id="1chkbx_g"
+                onchange="chkBox_global_handler(event)"></td>
+            <td>ID</td>
+            <td>Раскладка</td>
+            <td>Слоев</td>
+            <td>Время</td>
+
+          </tr>
+          <tbody draggable="false" class='table-body' id="1" ondrop="dropHandler(event);"
+            ondragover="dragOverHandler(event)" ondragleave="dragLeaveHandler(event)">
+
+            {{#each data}}
+            {{#if (is1 this.ctTbl)}}
+            {{#if (is1 this.раскроен)}}
+            <tr class="table-row cut" draggable="false"  ondragover="dragOverHandler(event)"
+              ondragleave="dragLeaveHandler(event)" ondblclick="dblHandler(event)" id={{this.ID}}>
+              <td class="checkbox" id={{this.ID}}td1></td>
+              {{else}}
+            <tr class="table-row" draggable="true" ondragend="dragEndHandler(event)" onmouseover="multiSelect(event)"  ondragover="dragOverHandler(event)"
+              ondragleave="dragLeaveHandler(event)" ondblclick="dblHandler(event)" id={{this.ID}}>
+              <td class="checkbox" id={{this.ID}}td1><input type="checkbox" name={{this.ID}} id=chk{{this.ID}} /></td>
+              {{/if}}
+              <td class='table-cell' id={{this.ID}}td2>{{this.ID}}</td>
+              <td class='table-cell' id={{this.ID}}tdop1 name="visibility">{{this.Model}}</td>
+              <td class='table-cell' id={{this.ID}}tdop2 name="visibility">{{this.Carset}}</td>
+              <td class='table-cell' id={{this.ID}}td3>{{this.Marker}}</td>
+              <td class='table-cell' id={{this.ID}}tdop3 name="visibility">{{this.LearNumber}}</td>
+              <td class='table-cell' id={{this.ID}}tdop5 name="visibility">{{this.Длинна}}</td>
+              <td class='table-cell' id={{this.ID}}tdop4>{{this.Layers}}</td>
+              <td class='table-cell' name="stdTime" id={{this.ID}}td4>{{this.stdtime}}</td>
+
+            </tr>
+            {{/if}}
+            {{/each}}
+          </tbody>
+        </table>
+        <footer draggable="false" class="tableFooter" ondblclick="buttonHandler(event)" id=1f></footer>
+      </div>
+    </div>
+
+    <div class="machine-pool" draggable="false">
+      <h3 id="2H" draggable="false" class="table-header" ondblclick="buttonHandler(event)">Стол2 <input class="searcher"
+          ondrop="dropHandler(event)" type="text" id='2input' onkeyup="searchHandler(event)" /><span id='2counter'
+          name="statWindow"></span> </h3>
+      <div draggable="false" id="2T" class="machine-pool-inner" ondrop="dropHandler(event);"
+        ondragover="dragOverHandler(event)" ondragleave="dragLeaveHandler(event)">
+
+        <table draggable="false" class='table-body'>
+
+          <tr draggable="false" class="stickyT">
+
+            <td><input class="checkbox" type="checkbox" name="global" id="2chkbx_g"
+                onchange="chkBox_global_handler(event)"></td>
+            <td>ID</td>
+            <td>Раскладка</td>
+            <td>Слоев</td>
+            <td>Время</td>
+          </tr>
+          <tbody draggable="false" class='table-body' id="2" ondrop="dropHandler(event);"
+            ondragover="dragOverHandler(event)" ondragleave="dragLeaveHandler(event)">
+
+            {{#each data}}
+            {{#if (is2 this.ctTbl)}}
+            {{#if (is1 this.раскроен)}}
+            <tr class="table-row cut" draggable="false"  ondragover="dragOverHandler(event)"
+              ondragleave="dragLeaveHandler(event)" ondblclick="dblHandler(event)" id={{this.ID}}>
+              <td class="checkbox" ondragover="dragOverHandler(event)" ondragleave="dragLeaveHandler(event)"
+                id={{this.ID}}td1></td>
+              {{else}}
+            <tr class="table-row" draggable="true" ondragend="dragEndHandler(event)"  onmouseover="multiSelect(event)" ondragover="dragOverHandler(event)"
+              ondragleave="dragLeaveHandler(event)" ondblclick="dblHandler(event)" id={{this.ID}}>
+              <td class="checkbox" ondragover="dragOverHandler(event)" ondragleave="dragLeaveHandler(event)"
+                id={{this.ID}}td1><input type="checkbox" name={{this.ID}} id=chk{{this.ID}} /></td>
+              {{/if}}
+              <td class='table-cell' id={{this.ID}}td2>{{this.ID}}</td>
+              <td class='table-cell' id={{this.ID}}tdop1 name="visibility">{{this.Model}}</td>
+              <td class='table-cell' id={{this.ID}}tdop2 name="visibility">{{this.Carset}}</td>
+              <td class='table-cell' id={{this.ID}}td3>{{this.Marker}}</td>
+              <td class='table-cell' id={{this.ID}}tdop3 name="visibility">{{this.LearNumber}}</td>
+              <td class='table-cell' id={{this.ID}}tdop5 name="visibility">{{this.Длинна}}</td>
+              <td class='table-cell' id={{this.ID}}tdop4>{{this.Layers}}</td>
+              <td class='table-cell' name="stdTime" id={{this.ID}}td4>{{this.stdtime}}</td>
+
+            </tr>
+            {{/if}}
+            {{/each}}
+          </tbody>
+        </table>
+        <footer draggable="false" class="tableFooter" ondblclick="buttonHandler(event)" id=2f></footer>
+      </div>
+    </div>
+
+
+    <div class="machine-pool" draggable="false">
+      <h3 id="3H" class="table-header" ondblclick="buttonHandler(event)" draggable="false">Стол3 <input class="searcher"
+          ondrop="dropHandler(event)" type="text" id='3input' onkeyup="searchHandler(event)" /><span id='3counter'
+          name="statWindow"></span> </h3>
+      <div id="3T" draggable="false" class="machine-pool-inner" ondrop="dropHandler(event);"
+        ondragover="dragOverHandler(event)" ondragleave="dragLeaveHandler(event)">
+
+
+        <table draggable="false" class='table-body'>
+
+          <tr draggable="false" class="stickyT">
+
+            <td><input class="checkbox" type="checkbox" name="global" id="3chkbx_g"
+                onchange="chkBox_global_handler(event)"></td>
+            <td>ID</td>
+            <td>Раскладка</td>
+            <td>Слоев</td>
+            <td>Время</td>
+
+          </tr>
+          <tbody class='table-body' id="3" ondrop="dropHandler(event);" ondragover="dragOverHandler(event)"
+            ondragleave="dragLeaveHandler(event)">
+            {{#each data}}
+            {{#if (is3 this.ctTbl)}}
+            {{#if (is1 this.раскроен)}}
+            <tr class="table-row cut" draggable="false"   ondragover="dragOverHandler(event)"
+              ondragleave="dragLeaveHandler(event)" ondblclick="dblHandler(event)" id={{this.ID}}>
+              <td class="checkbox" id={{this.ID}}td1></td>
+              {{else}}
+            <tr class="table-row" draggable="true" ondragend="dragEndHandler(event)" onmouseover="multiSelect(event)" ondragover="dragOverHandler(event)"
+              ondragleave="dragLeaveHandler(event)" ondblclick="dblHandler(event)" id={{this.ID}}>
+              <td class="checkbox" id={{this.ID}}td1><input type="checkbox" name={{this.ID}} id=chk{{this.ID}} /></td>
+              {{/if}}
+              <td class='table-cell' id={{this.ID}}td2>{{this.ID}}</td>
+              <td class='table-cell' id={{this.ID}}tdop1 name="visibility">{{this.Model}}</td>
+              <td class='table-cell' id={{this.ID}}tdop2 name="visibility">{{this.Carset}}</td>
+              <td class='table-cell' id={{this.ID}}td3>{{this.Marker}}</td>
+              <td class='table-cell' id={{this.ID}}tdop3 name="visibility">{{this.LearNumber}}</td>
+              <td class='table-cell' id={{this.ID}}tdop5 name="visibility">{{this.Длинна}}</td>
+              <td class='table-cell' id={{this.ID}}tdop4>{{this.Layers}}</td>
+              <td class='table-cell' name="stdTime" id={{this.ID}}td4>{{this.stdtime}}</td>
+
+            </tr>
+            {{/if}}
+            {{/each}}
+          </tbody>
+        </table>
+        <footer class="tableFooter" ondblclick="buttonHandler(event)" draggable="false" id=3f></footer>
+      </div>
+    </div>
+
+
+    <div class="machine-pool" draggable="false">
+      <h3 id="4H" class="table-header" ondblclick="buttonHandler(event)" draggable="false">Стол4 <input class="searcher"
+          ondrop="dropHandler(event)" type="text" id='4input' onkeyup="searchHandler(event)" /><span id='4counter'
+          name="statWindow"></span> </h3>
+      <div id="4T" draggable="false" class="machine-pool-inner" ondrop="dropHandler(event);"
+        ondragover="dragOverHandler(event)" ondragleave="dragLeaveHandler(event)">
+
+        <table draggable="false" class='table-body'>
+
+          <tr draggable="false" class="stickyT">
+
+            <td><input class="checkbox" type="checkbox" name="global" id="4chkbx_g"
+                onchange="chkBox_global_handler(event)"></td>
+            <td>ID</td>
+            <td>Раскладка</td>
+            <td>Слоев</td>
+            <td>Время</td>
+
+          </tr>
+
+          <tbody draggable="false" class='table-body' id="4" ondrop="dropHandler(event)"
+            ondragover="dragOverHandler(event)" ondragleave="dragLeaveHandler(event)">
+            {{#each data}}
+            {{#if (is4 this.ctTbl)}}
+            {{#if (is1 this.раскроен)}}
+            <tr class="table-row cut" ondragover="dragOverHandler(event)"   ondragleave="dragLeaveHandler(event)"
+              ondblclick="dblHandler(event)" id={{this.ID}}>
+              <td class="checkbox" id={{this.ID}}td1></td>
+              {{else}}
+            <tr class="table-row" draggable="true" ondragend="dragEndHandler(event)" onmouseover="multiSelect(event)" ondragover="dragOverHandler(event)"
+              ondragleave="dragLeaveHandler(event)" ondblclick="dblHandler(event)" id={{this.ID}}>
+              <td class="checkbox" id={{this.ID}}td1><input type="checkbox" name={{this.ID}} id=chk{{this.ID}} /></td>
+              {{/if}}
+              <td class='table-cell' id={{this.ID}}td2>{{this.ID}}</td>
+              <td class='table-cell' id={{this.ID}}tdop1 name="visibility">{{this.Model}}</td>
+              <td class='table-cell' id={{this.ID}}tdop2 name="visibility">{{this.Carset}}</td>
+              <td class='table-cell' id={{this.ID}}td3>{{this.Marker}}</td>
+              <td class='table-cell' id={{this.ID}}tdop3 name="visibility">{{this.LearNumber}}</td>
+              <td class='table-cell' id={{this.ID}}tdop5 name="visibility">{{this.Длинна}}</td>
+              <td class='table-cell' id={{this.ID}}tdop4>{{this.Layers}}</td>
+              <td class='table-cell' name="stdTime" id={{this.ID}}td4>{{this.stdtime}}</td>
+
+            </tr>
+            {{/if}}
+            {{/each}}
+          </tbody>
+        </table>
+        <footer class="tableFooter" ondblclick="buttonHandler(event)" draggable="false" id=4f></footer>
+      </div>
+    </div>
+
+    <div class="machine-pool" draggable="false">
+      <h3 draggable="false" id="5H" class="table-header" ondblclick="buttonHandler(event)">Стол5 <input class="searcher"
+          ondrop="dropHandler(event)" type="text" id='5input' onkeyup="searchHandler(event)" /><span id='5counter'
+          name="statWindow"></span> </h3>
+      <div id="5T" draggable="false" class="machine-pool-inner" ondrop="dropHandler(event);"
+        ondragover="dragOverHandler(event)" ondragleave="dragLeaveHandler(event)">
+
+
+        <table draggable="false" class='table-body'>
+
+          <tr draggable="false" class="stickyT">
+
+            <td><input class="checkbox" type="checkbox" name="global" id="5chkbx_g"
+                onchange="chkBox_global_handler(event)"></td>
+            <td>ID</td>
+            <td>Раскладка</td>
+            <td>Слоев</td>
+            <td>Время</td>
+
+          </tr>
+          <tbody draggable="false" class='table-body' id="5" ondrop="dropHandler(event);"
+            ondragover="dragOverHandler(event)" ondragleave="dragLeaveHandler(event)">
+            {{#each data}}
+            {{#if (is5 this.ctTbl)}}
+            {{#if (is1 this.раскроен)}}
+            <tr class="table-row cut" draggable="false"   ondragover="dragOverHandler(event)"
+              ondragleave="dragLeaveHandler(event)" ondblclick="dblHandler(event)" id={{this.ID}}>
+              <td class="checkbox" id={{this.ID}}td1></td>
+              {{else}}
+            <tr class="table-row" draggable="true" ondragend="dragEndHandler(event)" onmouseover="multiSelect(event)" ondragover="dragOverHandler(event)"
+              ondragleave="dragLeaveHandler(event)" ondblclick="dblHandler(event)" id={{this.ID}}>
+              <td class="checkbox" id={{this.ID}}td1><input type="checkbox" name={{this.ID}} id=chk{{this.ID}} /></td>
+              {{/if}}
+              <td class='table-cell' id={{this.ID}}td2>{{this.ID}}</td>
+              <td class='table-cell' id={{this.ID}}tdop1 name="visibility">{{this.Model}}</td>
+              <td class='table-cell' id={{this.ID}}tdop2 name="visibility">{{this.Carset}}</td>
+              <td class='table-cell' id={{this.ID}}td3>{{this.Marker}}</td>
+              <td class='table-cell' id={{this.ID}}tdop3 name="visibility">{{this.LearNumber}}</td>
+              <td class='table-cell' id={{this.ID}}tdop5 name="visibility">{{this.Длинна}}</td>
+              <td class='table-cell' id={{this.ID}}tdop4>{{this.Layers}}</td>
+              <td class='table-cell' name="stdTime" id={{this.ID}}td4>{{this.stdtime}}</td>
+
+            </tr>
+            {{/if}}
+            {{/each}}
+          </tbody>
+        </table>
+        <footer class="tableFooter" ondblclick="buttonHandler(event)" draggable="false" id=5f></footer>
+      </div>
+    </div>
+
+
+
+    <div class="machine-pool" draggable="false">
+      <h3 id="6H" draggable="false" class="table-header" ondblclick="buttonHandler(event)">Стол6 <input class="searcher"
+          ondrop="dropHandler(event)" type="text" id='6input' onkeyup="searchHandler(event)" /><span id='6counter'
+          name="statWindow"></span> </h3>
+      <div draggable="false" id="6T" class="machine-pool-inner" ondrop="dropHandler(event);"
+        ondragover="dragOverHandler(event)" ondragleave="dragLeaveHandler(event)">
+
+
+        <table draggable="false" class='table-body'>
+
+          <tr draggable="false" class="stickyT">
+
+            <td><input class="checkbox" type="checkbox" name="global" id="6chkbx_g"
+                onchange="chkBox_global_handler(event)"></td>
+            <td>ID</td>
+            <td>Раскладка</td>
+            <td>Слоев</td>
+            <td>Время</td>
+
+          </tr>
+          <tbody draggable="false" class='table-body' id="6" ondrop="dropHandler(event);"
+            ondragover="dragOverHandler(event)" ondragleave="dragLeaveHandler(event)">
+            {{#each data}}
+            {{#if (is6 this.ctTbl)}}
+            {{#if (is1 this.раскроен)}}
+            <tr class="table-row cut" draggable="false" ondragover="dragOverHandler(event)"
+              ondragleave="dragLeaveHandler(event)" ondblclick="dblHandler(event)" id={{this.ID}}>
+              <td class="checkbox" id={{this.ID}}td1></td>
+              {{else}}
+            <tr class="table-row" draggable="true" ondragend="dragEndHandler(event)" onmouseover="multiSelect(event)" ondragover="dragOverHandler(event)"
+              ondragleave="dragLeaveHandler(event)" ondblclick="dblHandler(event)" id={{this.ID}}>
+              <td class="checkbox" id={{this.ID}}td1><input type="checkbox" name={{this.ID}} id=chk{{this.ID}} /></td>
+              {{/if}}
+              <td class='table-cell' id={{this.ID}}td2>{{this.ID}}</td>
+              <td class='table-cell' id={{this.ID}}tdop1 name="visibility">{{this.Model}}</td>
+              <td class='table-cell' id={{this.ID}}tdop2 name="visibility">{{this.Carset}}</td>
+              <td class='table-cell' id={{this.ID}}td3>{{this.Marker}}</td>
+              <td class='table-cell' id={{this.ID}}tdop3 name="visibility">{{this.LearNumber}}</td>
+              <td class='table-cell' id={{this.ID}}tdop5 name="visibility">{{this.Длинна}}</td>
+              <td class='table-cell' id={{this.ID}}tdop4>{{this.Layers}}</td>
+              <td class='table-cell' name="stdTime" id={{this.ID}}td4>{{this.stdtime}}</td>
+            </tr>
+            {{/if}}
+            {{/each}}
+          </tbody>
+        </table>
+        <footer class="tableFooter" ondblclick="buttonHandler(event)" draggable="false" id=6f></footer>
+      </div>
+    </div>
+
+
+
+  </div>
+</div>
+
+
+<script src="../sendrequest.js"></script>
+<script src="../markerPlan/scripts.js"></script>

@@ -1,0 +1,30 @@
+{
+  "name": "serverexpress",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index",
+    "dev": "nodemon index"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@frangiskos/mssql": "^0.4.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-handlebars": "^5.3.4",
+    "fs": "^0.0.1-security",
+    "json-as-xlsx": "^2.3.10",
+    "json2xls": "^0.1.2",
+    "pm2": "^5.1.2",
+    "tedious": "^11.0.8",
+    "uuid": "^8.3.2",
+    "winston": "^3.7.2",
+    "ws": "^8.5.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.13"
+  },
+  "description": ""
+}
